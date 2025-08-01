@@ -1,7 +1,7 @@
 from tools.news import *
 
 def main():
-    print(data_breach())
+    print(malware())
 
 
 if __name__ == "__main__":
