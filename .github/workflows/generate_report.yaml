@@ -1,1 +1,39 @@
+name: Monthly UV Run
 
+on:
+  schedule:
+    - cron: '0 0 31 * *'  # At 00:00 on the 31st of each month
+  workflow_dispatch:       # Allow manual runs too
+
+jobs:
+  run-uv-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies with uv
+        run: |
+          uv pip compile uv.lock -o requirements.txt
+          uv pip install -r requirements.txt
+
+      - name: Run script with uv
+        run: |
+          uv main.py
+
+      - name: Upload reports as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: reports/
