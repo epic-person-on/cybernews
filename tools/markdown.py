@@ -1,4 +1,4 @@
-from news import *
+from tools.news import *
 
 def generate_malware_report():
     report = "# Report on malware news\n"
