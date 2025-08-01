@@ -14,5 +14,3 @@ def cyber_attack():
 def vulnerability():
     return news.get_news("vulnerability")
 
-def security():
-    return news.get_news("security")
